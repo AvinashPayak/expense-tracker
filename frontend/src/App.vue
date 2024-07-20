@@ -1,81 +1,37 @@
 <template>
   <div>
-    <div class="login">
-      <h1>Login Page</h1>
-      <div class="auth-btns">
-        <button :disabled="isGAuthAuthorized" @click="handleSignIn">Sign In</button>
-        <button :disabled="!isGAuthAuthorized" @click="handleSignOut">Sign Out</button>
-      </div>
-    </div>
+    <Header />
+    <router-view/>
   </div>
 </template>
 
 <script setup>
-import { computed, getCurrentInstance, inject } from 'vue';
+import { computed, onMounted } from "vue";
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import Header from "./components/Header.vue";
+import axiosInstance from "./utils/axios";
 
-const vue3GoogleAuth = inject('Vue3GoogleOauth');
-const { proxy } = getCurrentInstance();
-import axiosInstance from './utils/axios'
+const store = useStore();
+const router = useRouter()
 
-const isGAuthAuthorized = computed(() => vue3GoogleAuth.isAuthorized);
-
-const handleSignIn = async () => {
-  try {
-    const googleUser = await proxy.$gAuth.signIn();
-    console.log("googluser", googleUser);
-    if (!googleUser) {
-      return null;
-    }
-    console.log(googleUser);
-    const userToken = googleUser.getAuthResponse().id_token;
-    localStorage.setItem('token', userToken);
-    console.log("user", userToken);
-
+onMounted(async () => {
+  const token = localStorage.getItem('token');
+  if(token) {
+    console.log("on mounted")
     const {data: {data:userData, state}} = await axiosInstance.post(`/login`);
     if(state) {
-      console.log("userData", userData?.uuid);
-      
-    }    
-
-  } catch (error) {
-    console.log("error: ", error)
+      console.log("userData", userData);
+      store.commit('setUserLoggedIn', true);
+      store.commit("setUserDetails", userData);
+      router.push({ name: 'home'})
+    }  
+  } else {
+    router.push({ name: 'login'})
   }
-}
-
-const handleSignOut = async () => {
-  try {
-    await proxy.$gAuth.signOut();
-    localStorage.removeItem('token');
-  } catch (error) {
-    console.log("error: ", error)
-  }
-}
+})
 </script>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-
-.login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.auth-btns {
-  display: flex;
-  gap: 10px;
-}
 </style>
