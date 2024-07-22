@@ -8,9 +8,7 @@ class RolesService extends BaseService {
 
     fetchAllRoles = async () => {
         try {
-            console.log("fetchAllRoles");
             const roles = await Roles.query().select('*').orderBy('id');
-            console.log("roles", roles);
             return roles;
         } catch(error) {
             return error
