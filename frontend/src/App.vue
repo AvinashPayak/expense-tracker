@@ -18,10 +18,8 @@ const router = useRouter()
 onMounted(async () => {
   const token = localStorage.getItem('token');
   if(token) {
-    console.log("on mounted")
     const {data: {data:userData, state}} = await axiosInstance.post(`/login`);
     if(state) {
-      console.log("userData", userData);
       store.commit('setUserLoggedIn', true);
       store.commit("setUserDetails", userData);
       router.push({ name: 'home'})

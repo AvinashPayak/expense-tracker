@@ -12,6 +12,9 @@ export default {
         setUserLoggedIn(state, loggedInStatus){
             state.isLoggedIn = loggedInStatus;
         },
+        setWalkthroughCompleted(state, walkthroughCompleted) {
+            state.userDetails.walkthroughCompleted = walkthroughCompleted;
+        }
     },
     actions: {
 
@@ -23,5 +26,11 @@ export default {
         GetUserDetails(state) {
             return state.userDetails;
         },
+        IsWalkthroughCompleted(state) {
+            return state.userDetails.walkthroughCompleted;
+        },
+        GetUserUuid(state) {
+            return state.userDetails?.uuid;
+        }
     }
 };
