@@ -1,9 +1,8 @@
-import { createStore } from 'vuex'
-import user from './user.js';
+import { createStore } from "vuex";
+import user from "./user.js";
 
 export default createStore({
-    modules: {
-        user,
-    }
-})
-
+  modules: {
+    user,
+  },
+});

@@ -1,15 +1,15 @@
 <script setup>
-import axios from 'axios';
-import { ref } from 'vue'
+import axios from "axios";
+import { ref } from "vue";
 
 defineProps({
   msg: String,
-})
+});
 
-const res = await axios.get('http://localhost:8085/');
+const res = await axios.get("http://localhost:8085/");
 console.log("res", res);
 
-const count = ref(0)
+const count = ref(0);
 </script>
 
 <template>
