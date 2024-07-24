@@ -1,8 +1,7 @@
 <template>
     <div>
-        <div v-for="step in props.walkthroughSteps" :key="step.stepId">
-           <WalkthroughStep :step="step" @nextStep="nextStep" @completeWalkthrough="completeWalkthrough"  />
-        </div>
+        <WalkthroughStep v-for="step in props.walkthroughSteps" :key="step.stepId" :step="step" @nextStep="nextStep"
+            @completeWalkthrough="completeWalkthrough" />
     </div>
 </template>
 <script setup>

@@ -1,8 +1,7 @@
 <template>
-    <div>
+    <div class="dashboard">
         <h1>DashBoard</h1>
-        isWalkthroughCompleted {{ isWalkthroughCompleted }}
-        <Walkthrough v-if="!isWalkthroughCompleted" />
+        <Walkthrough class="walkthrough" v-if="!isWalkthroughCompleted" />
     </div>
 </template>
 <script setup>
@@ -14,3 +13,16 @@ const store = useStore();
 
 const isWalkthroughCompleted = computed(() => store.getters.IsWalkthroughCompleted);
 </script>
+<style scoped>
+.walkthrough {
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #242424;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+}
+</style>
