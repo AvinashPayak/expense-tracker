@@ -2,6 +2,7 @@
   <div>
     <Header />
     <router-view />
+    <Navbar />
   </div>
 </template>
 
@@ -10,6 +11,8 @@ import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import Header from "./components/Header.vue";
+import Navbar from "./components/Navbar.vue";
+
 import axiosInstance from "./utils/axios";
 
 const store = useStore();

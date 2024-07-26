@@ -1,19 +1,48 @@
 <template>
   <div class="dashboard">
-    <h1>DashBoard</h1>
+    <component :is="currentTab"> </component>
     <Walkthrough class="walkthrough" v-if="!isWalkthroughCompleted" />
   </div>
 </template>
 <script setup>
-import { computed } from "vue";
+import { computed, defineAsyncComponent, watch } from "vue";
 import { useStore } from "vuex";
 import Walkthrough from "../components/Walkthrough/index.vue";
-
+const Home = defineAsyncComponent(() => import("../components/Tabs/Home.vue"));
+const Profile = defineAsyncComponent(
+  () => import("../components/Tabs/Profile.vue"),
+);
+const Stats = defineAsyncComponent(
+  () => import("../components/Tabs/Stats.vue"),
+);
+const Wallet = defineAsyncComponent(
+  () => import("../components/Tabs/Wallet.vue"),
+);
 const store = useStore();
 
 const isWalkthroughCompleted = computed(
   () => store.getters.IsWalkthroughCompleted,
 );
+const userCurrentTab = computed(() => store.getters.GetUserCurrentTab);
+
+const currentTab = computed(() => {
+  switch (userCurrentTab.value) {
+    case 1:
+      return Home;
+
+    case 2:
+      return Stats;
+
+    case 3:
+      return Wallet;
+
+    case 4:
+      return Profile;
+
+    default:
+      return Home;
+  }
+});
 </script>
 <style scoped>
 .walkthrough {

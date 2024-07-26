@@ -3,6 +3,7 @@ export default {
   state: {
     isLoggedIn: false,
     userDetails: {},
+    userCurrentTab: 1,
   },
   mutations: {
     setUserDetails(state, userDetails) {
@@ -13,6 +14,9 @@ export default {
     },
     setWalkthroughCompleted(state, walkthroughCompleted) {
       state.userDetails.walkthroughCompleted = walkthroughCompleted;
+    },
+    setUserCurrentTab(state, userCurrentTab) {
+      state.userCurrentTab = userCurrentTab;
     },
   },
   actions: {},
@@ -28,6 +32,9 @@ export default {
     },
     GetUserUuid(state) {
       return state.userDetails?.uuid;
+    },
+    GetUserCurrentTab(state) {
+      return state.userCurrentTab;
     },
   },
 };
