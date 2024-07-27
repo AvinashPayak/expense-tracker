@@ -1,11 +1,11 @@
 <template>
   <div class="dashboard">
-    <component :is="currentTab"> </component>
-    <Walkthrough class="walkthrough" v-if="!isWalkthroughCompleted" />
+    <component class="tab" :is="currentTab"> </component>
+    <Walkthrough class="walkthrough" v-if="isWalkthroughCompleted" />
   </div>
 </template>
 <script setup>
-import { computed, defineAsyncComponent, watch } from "vue";
+import { computed, defineAsyncComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import Walkthrough from "../components/Walkthrough/index.vue";
 const Home = defineAsyncComponent(() => import("../components/Tabs/Home.vue"));
@@ -21,10 +21,9 @@ const Wallet = defineAsyncComponent(
 const store = useStore();
 
 const isWalkthroughCompleted = computed(
-  () => store.getters.IsWalkthroughCompleted,
+  () => store.getters.IsWalkthroughCompleted === false,
 );
 const userCurrentTab = computed(() => store.getters.GetUserCurrentTab);
-
 const currentTab = computed(() => {
   switch (userCurrentTab.value) {
     case 1:
@@ -55,5 +54,8 @@ const currentTab = computed(() => {
   position: fixed;
   display: flex;
   justify-content: center;
+}
+.tab {
+  margin: 0 1rem;
 }
 </style>

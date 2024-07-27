@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const knex = require('../config/db');
 const { userAuthenticationAction } = require('../middleware/auth');
-
+const { userDetailsAction } = require('../controllers/users.controller');
 module.exports = function(app) {
     app.get('/', userAuthenticationAction, async (req, res) => {
         try {
@@ -16,4 +16,5 @@ module.exports = function(app) {
             res.status(500).send("Error sending data", err);
         }
     })
+    app.get('/user-details', userAuthenticationAction, userDetailsAction)
 }

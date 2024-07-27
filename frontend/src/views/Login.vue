@@ -2,10 +2,10 @@
   <div class="login">
     <h1>Login Page</h1>
     <div class="auth-btns">
-      <button :disabled="isGAuthAuthorized" @click="handleSignIn">
+      <button :disabled="props.isUserLoggedIn" @click="handleSignIn">
         Sign In
       </button>
-      <button :disabled="!isGAuthAuthorized" @click="handleSignOut">
+      <button :disabled="!props.isUserLoggedIn" @click="handleSignOut">
         Sign Out
       </button>
     </div>
@@ -13,19 +13,22 @@
 </template>
 
 <script setup>
-import { computed, getCurrentInstance, inject, onMounted } from "vue";
+import { computed, getCurrentInstance, inject, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
 
-const vue3GoogleAuth = inject("Vue3GoogleOauth");
 const { proxy } = getCurrentInstance();
 import axiosInstance from "../utils/axios";
 
-const isGAuthAuthorized = computed(() => vue3GoogleAuth.isAuthorized);
-
+const props = defineProps({
+  isUserLoggedIn: {
+    type: Boolean,
+    default: false,
+  },
+});
 const handleSignIn = async () => {
   try {
     const googleUser = await proxy.$gAuth.signIn();

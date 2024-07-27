@@ -1,9 +1,12 @@
+import axiosInstance from "../utils/axios";
+
 export default {
   name: "user",
   state: {
     isLoggedIn: false,
     userDetails: {},
     userCurrentTab: 1,
+    walkthroughCompleted: null,
   },
   mutations: {
     setUserDetails(state, userDetails) {
@@ -19,7 +22,20 @@ export default {
       state.userCurrentTab = userCurrentTab;
     },
   },
-  actions: {},
+  actions: {
+    async getUserDetails(state) {
+      try {
+        const {
+          data: { data: userData, state },
+        } = await axiosInstance.get("/user-details");
+        if (state) {
+          store.commit("setUserDetails", userData);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
   getters: {
     GetUserLoggedInStatus(state) {
       return state.isLoggedIn;
